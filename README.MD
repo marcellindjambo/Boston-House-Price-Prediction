@@ -25,3 +25,6 @@ Models are evaluated using appropriate metrics such as performance score. Models
 ## Deployment
 
 A Streamlit application is created to allow users to predict housing prices in Boston using the developed model.
+
+- To test app:
+    streamlit run streamlit_app.py
