@@ -29,6 +29,7 @@ st.write("---")
 def load_data(file_path):
     return pd.read_csv(file_path)
 
+
 data_file = r"C:\Users\djamb\OneDrive - Université Centrale\ML PROJECTS\PREDICTION PRIX LOGEMENT\data\housing_data.csv"
 data = load_data(data_file)
 X = data.drop('MedianHomeValue', axis=1)
@@ -37,6 +38,7 @@ y = data['MedianHomeValue']
 # Sidebar
 # Specify input parameters
 st.sidebar.header('Specify Input Parameters')
+
 
 # Define the list of features along with their descriptions
 features_info = {
