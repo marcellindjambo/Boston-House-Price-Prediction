@@ -17,7 +17,7 @@ def data_ingestion() -> pd.DataFrame:
     """
     try:
         # Define the file path
-        file_path = r"C:\Users\djamb\OneDrive - Université Centrale\ML PROJECTS\PREDICTION PRIX LOGEMENT\data\housing_data.csv"
+        file_path = r"https://raw.githubusercontent.com/marcellindjambo/Boston-House-Price-Prediction/main/data/housing_data.csv"
         
         # Create an instance of IngestData with the specified file path
         data_ingestion = IngestData(file_path)

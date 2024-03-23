@@ -30,7 +30,7 @@ def load_data(file_path):
     return pd.read_csv(file_path)
 
 
-data_file = r"C:\Users\djamb\OneDrive - Université Centrale\ML PROJECTS\PREDICTION PRIX LOGEMENT\data\housing_data.csv"
+data_file = r"https://raw.githubusercontent.com/marcellindjambo/Boston-House-Price-Prediction/main/data/housing_data.csv"
 data = load_data(data_file)
 X = data.drop('MedianHomeValue', axis=1)
 y = data['MedianHomeValue']
@@ -149,8 +149,8 @@ st.markdown(
     """
     ### Author Information
 
-    Marcellin Djambo
-    Junior Data Scientist 
+    #### Marcellin Djambo
+    _Junior Data Scientist_
 
     [LinkedIn](https://www.linkedin.com/in/marcellindjambo)
     """
