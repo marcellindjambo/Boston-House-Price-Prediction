@@ -81,7 +81,7 @@ def load_model(model_path):
     return joblib.load(model_path)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-model_path = r"C:\Users\djamb\OneDrive - Université Centrale\ML PROJECTS\PREDICTION PRIX LOGEMENT\model_saved\random_forest_model_3.pkl"
+model_path = r"C:\Users\djamb\OneDrive - Université Centrale\ML PROJECTS\PREDICTION PRIX LOGEMENT\model_saved\random_forest_model_0.pkl"
 model = load_model(model_path)
 
 # Prediction
