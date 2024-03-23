@@ -1,8 +1,10 @@
 [theme]
+primaryColor="#45e472"
 backgroundColor="#030a1c"
 secondaryBackgroundColor="#050925"
 textColor="#fffafa"
-font="serif"
+font="monospace"
+
 
 
 [deprecation]
