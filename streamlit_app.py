@@ -150,6 +150,7 @@ st.markdown(
     ### Author Information
 
     Marcellin Djambo
+    Junior Data Scientist 
 
     [LinkedIn](https://www.linkedin.com/in/marcellindjambo)
     """
