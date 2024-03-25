@@ -8,7 +8,7 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, max_error
 
 # Set Streamlit page configuration
 st.set_page_config(
-    page_title="Boston House Price Prediction App",
+    page_title="House Price Prediction App",
     page_icon="🏠",
     layout="wide",
 )
@@ -83,7 +83,7 @@ def load_model(model_path):
     return joblib.load(model_path)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-model_path = r"C:\Users\djamb\OneDrive - Université Centrale\ML PROJECTS\PREDICTION PRIX LOGEMENT\model_saved\random_forest_model_0.pkl"
+model_path = r"model_saved/random_forest_model_0.pkl"
 model = load_model(model_path)
 
 # Prediction

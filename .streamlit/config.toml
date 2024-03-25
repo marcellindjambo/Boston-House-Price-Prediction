@@ -5,7 +5,5 @@ secondaryBackgroundColor="#050925"
 textColor="#fffafa"
 font="monospace"
 
-
-
 [deprecation]
 showPyplotGlobalUse = false
