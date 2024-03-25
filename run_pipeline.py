@@ -1,6 +1,6 @@
 from steps.ingest_df import data_ingestion
 from steps.clean_data import Data_Cleaning_Step
-from steps.model_train import train_model_and_evaluate_and_save_the_best
+from steps.model_train import train_evaluate_and_save_all_models
 
 from datetime import datetime
 import logging
@@ -33,7 +33,7 @@ def ml_pipeline():
     
     # Train and evaluate the models and save the best ones
     # This function trains multiple models, evaluates them, and saves the best ones.
-    trained_model = train_model_and_evaluate_and_save_the_best(X_train, X_test, y_train, y_test)
+    trained_model = train_evaluate_and_save_all_models(X_train, X_test, y_train, y_test)
     
     # Log the end time of the pipeline
     fin_pipeline = datetime.now()

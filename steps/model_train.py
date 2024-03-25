@@ -1,60 +1,52 @@
 import os
 import joblib
-from sklearn.base import RegressorMixin
+import mlflow
+import pandas as pd
 from src.build_model import RandomForestModel, KNeighborsRegressorModel, DecisionTreeRegressorModel
 
-def train_model_and_evaluate_and_save_the_best(X_train, X_test, y_train, y_test) -> RegressorMixin:
+# Configure MLflow
+mlflow.set_tracking_uri(uri="http://127.0.0.1:5000")
+mlflow.set_experiment("House Price Prediction")
+
+def train_evaluate_and_save_all_models(X_train, X_test, y_train, y_test):
     """
-    Trains multiple models, evaluates them, and saves the best model.
+    Trains multiple regression models, evaluates them, and saves all models.
 
     Args:
-        X_train (pd.DataFrame): The training features.
-        X_test (pd.DataFrame): The testing features.
-        y_train (pd.Series): The training targets.
-        y_test (pd.Series): The testing targets.
-
-    Returns:
-        dict: The dictionary containing the best models.
+        X_train (pd.DataFrame): Training features.
+        X_test (pd.DataFrame): Testing features.
+        y_train (pd.Series): Training targets.
+        y_test (pd.Series): Testing targets.
     """
+    # Initialize models
+    models = {
+        'Random Forest': RandomForestModel(),
+        'Decision Tree': DecisionTreeRegressorModel(),
+        'KNN': KNeighborsRegressorModel()
+    }
 
-    # Instantiation of models
-    random_forest_model = RandomForestModel()
-    decision_tree_model = DecisionTreeRegressorModel()
-    knn_model = KNeighborsRegressorModel()
+    # Train, evaluate, and log all models
+    for model_name, model in models.items():
+        trained_model = model.train(X_train, y_train)
+        y_pred = model.predict(trained_model, X_test)
+        score, mse, mae, max_err = model.evaluate(y_pred, y_test)
 
-    # Training and evaluation of models
-    trained_random_forest_model = random_forest_model.train(X_train, y_train)
-    rf_score = random_forest_model.evaluate(trained_random_forest_model, X_test, y_test)
+        # Log metrics and model
+        with mlflow.start_run(run_name=model_name):
+            mlflow.set_tag("Model Name", model_name)
+            mlflow.log_metrics({
+                "R2 Score": score,
+                "Mean Squared Error": mse,
+                "Mean Absolute Error": mae,
+                "Max Error": max_err
+            })
+            
+            mlflow.sklearn.log_model(model, "model")
 
-    trained_decision_tree_model = decision_tree_model.train(X_train, y_train)
-    dt_score = decision_tree_model.evaluate(trained_decision_tree_model, X_test, y_test)
+        print(f"{model_name}: R2 Score - {score} | MSE - {mse} | MAE - {mae} | Max Error - {max_err}")
 
-    trained_knn_model = knn_model.train(X_train, y_train)
-    knn_score = knn_model.evaluate(trained_knn_model, X_test, y_test)
-
-    # Saving the best models
-    best_models = {}
-    if (rf_score > dt_score) and (rf_score > knn_score):
-        best_models['random_forest'] = trained_random_forest_model
-    elif dt_score > knn_score:
-        best_models['decision_tree'] = trained_decision_tree_model
-    else:
-        best_models['knn'] = trained_knn_model
-
-    print(f"Features of the training data: {X_train.columns}")
-
-    # Saving the best models in separate files
-    file_path = r"C:\Users\djamb\OneDrive - Université Centrale\ML PROJECTS\PREDICTION PRIX LOGEMENT\model_saved"
-
-    for model_name, model in best_models.items():
-        for i, (model_name, model) in enumerate(best_models.items()):
-            # Generate the file name for the model with incremental number
-            file_name = f"{model_name}_model_{i}.pkl"
-
-            # Full path of the file
-            file_full_path = os.path.join(file_path, file_name)
-
-            # Save the model to the file
-            joblib.dump(model, file_full_path)
-
-    print(f"The best models: {best_models}")
+        # Save the model
+        save_model_path = "model_saved"
+        os.makedirs(save_model_path, exist_ok=True)
+        model_file_path = os.path.join(save_model_path, f"{model_name}_model.pkl")
+        joblib.dump(trained_model, model_file_path)
